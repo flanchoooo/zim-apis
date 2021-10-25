@@ -15,9 +15,6 @@ class ValidationsController extends Controller
      */
 
 
-    public function idCheck($id){
-        $pattern = "~[0-9]{8,9}[a-z,A-Z][0-9]{2}~";
-    }
 
 
     public function zimbabweNationalIdValidation($id){
@@ -56,8 +53,26 @@ class ValidationsController extends Controller
             'description'       => 'Invalid Zimbabwe National ID number. [Recommended Format: 00000000X00]',
         ],400);
 
-            else
-                return response([
+
+        $modulas = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', ' K','L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+        $checkDigitInput = strtoupper(preg_replace("/[0-9, ]/", "", $id));
+        if(strlen($id) === 11){
+            $idNumberLength = substr($id,0 , 8);
+        }else{
+            $idNumberLength = substr($id,0 , 9);
+        };
+
+        $result = (int)$idNumberLength % 23;
+        $checkLetter = $modulas[$result-1];
+        if($modulas[$result-1] != $checkDigitInput){
+            return response([
+                'code'              => '01',
+                'description'       => 'National Identification provided does not exisits.',
+            ],404);
+
+        }
+
+        return response([
                     'code'              => '00',
                     'description'       => 'Valid Zimbabwe National ID number',
                 ]);
