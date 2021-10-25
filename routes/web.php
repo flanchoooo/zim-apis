@@ -20,4 +20,9 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => 'api/v1'], function ($app) {
     $app->get('validation/zim-national-id/{id}', 'ValidationsController@zimbabweNationalIdValidation');
+
+
+    //Hits
+    $app->get('hits-statistics', 'HitsController@getHits');
+
 });
