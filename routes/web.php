@@ -21,8 +21,11 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'api/v1'], function ($app) {
     $app->get('validation/zim-national-id/{id}', 'ValidationsController@zimbabweNationalIdValidation');
 
-
     //Hits
     $app->get('hits-statistics', 'HitsController@getHits');
+    $app->get('balance/{id}', 'ZamtelController@balance');
+    $app->get('topup/{id}/{amount}', 'ZamtelController@topup');
+    $app->get('reversal/{id}', 'ZamtelController@reversal');
+    $app->get('transactions', 'ZamtelController@transaction');
 
 });
